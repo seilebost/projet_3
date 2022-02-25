@@ -18,7 +18,7 @@ def test_index():
 def test_info():
     resp = client.get("/info")
     assert resp.status_code == 200
-    assert "amazon" in resp.json()["indexes"].keys()
+    assert resp.json()["indexes"] != {}
 
 
 def test_search_with_wrong_index():
