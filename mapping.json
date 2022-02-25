@@ -1,0 +1,52 @@
+{
+
+"settings":{
+	"analysis": {
+      "analyzer": {
+        "my_custom_analyzer": {
+          "type": "custom",
+          "tokenizer": "punctuation",
+          "filter": [
+            "lowercase",
+            "english_stop"
+          ]
+        }
+      },
+      "tokenizer": {
+        "punctuation": {
+          "type": "pattern",
+          "pattern": "[ ,.;]"
+        }
+      },
+      "filter": {
+        "english_stop": {
+          "type": "stop",
+          "stopwords": "_english_"
+        }
+      }
+    }
+},
+
+
+"mappings": {
+      "properties": {
+        "amazon_category_and_sub_category": {"type": "keyword"},
+        "average_review_rating": {"type": "float"},
+        "customer_questions_and_answers": {"type": "text"},
+        "customer_reviews": {"type": "text"},
+        "customers_who_bought_this_item_also_bought": {"type": "text"},
+        "description": {"type": "text"},
+        "items_customers_buy_after_viewing_this_item": {"type": "text"},
+        "manufacturer": {"type": "keyword"},
+        "number_available_in_stock": {"type": "text"},
+        "number_of_answered_questions": {"type": "integer"},
+        "number_of_reviews": {"type": "integer"},
+        "price": {"type": "float" },
+        "product_description": {"type": "text"},
+        "product_information": {"type": "text"},
+        "product_name": {"type": "text"},
+        "sellers": {"type": "text"},
+        "uniq_id": {"type": "text"}
+        }
+}
+}
