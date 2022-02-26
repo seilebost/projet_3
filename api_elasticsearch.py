@@ -1,7 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 import uvicorn
 from elasticsearch import Elasticsearch
-from typing import Optional
+from typing import Optional, List
 
 api = FastAPI(
     title="API Elasticsearch",
@@ -33,7 +33,16 @@ def get_info() -> dict:
 
 
 @api.get("/search", name="Search for documents")
-def search(query, field, index: Optional[str] = "*") -> dict:
+def search(
+    query,
+    field,
+    outputs: Optional[List[str]] = Query(
+        None,
+        title="Outputs fields",
+        description="Filter the fields returned by the query",
+    ),
+    index: Optional[str] = "*",
+) -> dict:
     """
     Return documents according to search query
     """
@@ -43,9 +52,15 @@ def search(query, field, index: Optional[str] = "*") -> dict:
             status_code=404, detail=f"Index {index} does not exist"
         )
 
+    body = {"query": {"match": {field: query}}}
+
+    if outputs:
+        body["_source"] = outputs
+
     return {
         "results": client.search(
-            index=index, body={"query": {"match": {field: query}}}
+            index=index,
+            body=body,
         )
     }
 
