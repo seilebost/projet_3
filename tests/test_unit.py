@@ -6,7 +6,7 @@ from api_elasticsearch import api
 client = TestClient(api)
 
 
-url_no_index = "http://localhost:8000/search?query={query}&field={field}"
+url_no_index = "/search?query={query}&field={field}"
 url = url_no_index + "&index={index}"
 
 
@@ -87,3 +87,10 @@ def test_search_wrong_outputs(wrong):
 
     assert resp.status_code == 200
     assert resp.json()["results"]["hits"]["hits"][0]["_source"] == {}
+
+
+def test_count():
+    resp = client.get("/count")
+
+    assert resp.status_code == 200
+    assert isinstance(resp.json()["count"], int)
