@@ -1,4 +1,5 @@
 from fastapi.testclient import TestClient
+import pytest
 
 from api_elasticsearch import api
 
@@ -59,3 +60,30 @@ def test_search_with_correct_query():
     )
     assert resp.status_code == 200
     assert len(resp.json()["results"]["hits"]["hits"]) > 0
+
+
+def test_search_outputs():
+
+    resp = client.get(
+        (url_no_index + "&outputs=uniq_id&outputs=description").format(
+            query="great", field="description"
+        )
+    )
+
+    assert resp.status_code == 200
+    assert list(
+        resp.json()["results"]["hits"]["hits"][0]["_source"].keys()
+    ) == [
+        "uniq_id",
+        "description",
+    ]
+
+
+@pytest.mark.parametrize("wrong", ["&outputs=", "&outputs=wrong"])
+def test_search_wrong_outputs(wrong):
+    resp = client.get(
+        (url_no_index + wrong).format(query="great", field="description")
+    )
+
+    assert resp.status_code == 200
+    assert resp.json()["results"]["hits"]["hits"][0]["_source"] == {}
