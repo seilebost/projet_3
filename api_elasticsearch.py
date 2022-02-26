@@ -65,6 +65,22 @@ def search(
     }
 
 
+@api.get("/count", name="Count documents")
+def count(
+    index: Optional[str] = "*",
+    q: Optional[str] = Query(
+        None,
+        name="Query string",
+        description="Query in the Lucene query string syntax",
+    ),
+) -> dict:
+    """
+    Return the count of documents according to indexes and query
+    """
+
+    return {"count": client.count(index=index, q=q)["count"]}
+
+
 if __name__ == "__main__":
     uvicorn.run(
         "api_elasticsearch:api",
