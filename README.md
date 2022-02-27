@@ -16,7 +16,8 @@ lancer la commande `go.sh` qui effectue les actions suivantes :
 
 # Information
 
-* queries.sh : script unix de test unitaire pour l'API
+* queries.sh : script unix de test unitaire pour ELASTICSEARCH
+* tests/ : répertoire contenant un script python de test unitaire de l'API
 
 ## API avec FastAPI
 
