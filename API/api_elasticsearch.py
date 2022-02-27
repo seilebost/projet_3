@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException, Query
+import uvicorn
 from elasticsearch import Elasticsearch
 from typing import Optional, List
-import uvicorn
+from pydantic import BaseModel, Field
 
 api = FastAPI(
     title="API Elasticsearch",
@@ -11,7 +12,30 @@ api = FastAPI(
 )
 
 # Connect to Elasticsearch
-client = Elasticsearch("http://my_es_from_compose:9200")
+client = Elasticsearch("http://localhost:9200")
+
+
+class Document(BaseModel):
+    """
+    Define fields available for a document
+    """
+
+    amazon_category_and_sub_category: Optional[str] = None
+    average_review_rating: Optional[float] = Field(None, gt=0)
+    customer_questions_and_answers: Optional[str] = None
+    customer_reviews: Optional[str] = None
+    customers_who_bought_this_item_also_bought: Optional[str] = None
+    description: Optional[str] = None
+    items_customers_buy_after_viewing_this_item: Optional[str] = None
+    manufacturer: str
+    number_available_in_stock: Optional[str] = None
+    number_of_answered_questions: Optional[int] = Field(None, gt=0)
+    number_of_reviews: Optional[int] = Field(None, gt=0)
+    price: Optional[float] = Field(None, gt=0)
+    product_description: Optional[str] = None
+    product_information: Optional[str] = None
+    product_name: str
+    sellers: Optional[str] = None
 
 
 @api.get("/", name="Check API")
@@ -81,6 +105,14 @@ def count(
     return {"count": client.count(index=index, q=q)["count"]}
 
 
+@api.post("/create/{index}")
+def create_document(index, document: Document):
+
+    # With the refresh parameter the server's response will be delayed until
+    # Elasticsearch has update the index
+    return client.index(index=index, body=document.dict(), refresh="wait_for")
+
+
 if __name__ == "__main__":
     uvicorn.run(
         "api_elasticsearch:api",
@@ -88,3 +120,4 @@ if __name__ == "__main__":
         port=8000,
         reload=True,
     )
+
