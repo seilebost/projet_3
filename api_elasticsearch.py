@@ -108,7 +108,9 @@ def count(
 @api.post("/create/{index}")
 def create_document(index, document: Document):
 
-    return client.index(index=index, body=document.dict())
+    # With the refresh parameter the server's response will be delayed until
+    # Elasticsearch has update the index
+    return client.index(index=index, body=document.dict(), refresh="wait_for")
 
 
 if __name__ == "__main__":
