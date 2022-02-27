@@ -115,7 +115,9 @@ class TestWithDocuments:
     def test_search_wrong_outputs(self, wrong):
         resp = client.get(
             (url + wrong).format(
-                query="great", field="description", index=TEST_INDEX
+                query=test_data.BadProduct.product_name,
+                field="product_name",
+                index=TEST_INDEX,
             )
         )
 
@@ -151,7 +153,9 @@ class TestWithDocuments:
     def test_search_with_bad_query(self):
         resp = client.get(
             url.format(
-                query="bbbbbbbb", field="customer_reviews", index=TEST_INDEX
+                query=test_data.BadProduct.amazon_category_and_sub_category,
+                field="product_name",
+                index=TEST_INDEX,
             )
         )
         assert resp.status_code == 200
@@ -160,8 +164,27 @@ class TestWithDocuments:
     def test_search_with_existing_index(self):
         resp = client.get(
             url.format(
-                query="great", field="customer_reviews", index=TEST_INDEX
+                query=test_data.GoodProduct.product_name,
+                field="product_name",
+                index=TEST_INDEX,
             )
         )
         assert resp.status_code == 200
         assert len(resp.json()) > 0
+
+    def test_create(self):
+        initial_count = self.es.count(index=TEST_INDEX)["count"]
+        resp = client.post(
+            f"/create/{TEST_INDEX}", json=test_data.GoodProduct._asdict()
+        )
+
+        assert self.es.count(index=TEST_INDEX)["count"] == initial_count + 1
+        assert (
+            self.es.get(index=TEST_INDEX, id=resp.json()["_id"])["_source"][
+                "product_name"
+            ]
+            == test_data.GoodProduct.product_name
+        )
+
+        # Delete the document to avoid conflict with other tests
+        self.es.delete(index=TEST_INDEX, id=resp.json()["_id"])
