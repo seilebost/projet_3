@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+   elasticsearch:
+      image: elasticsearch:7.10.1
+      container_name: my_es_from_compose
+      networks:
+              - my_network_from_compose
+      ports:
+              - "9200:9200"
+              - "9300:9300"
+      environment:
+        discovery.type: single-node
+   mydata:
+      image: datascientest/projet3_data:1.0.0
+      container_name: my_data_from_compose
+      depends_on: 
+           - elasticsearch
+      volumes:
+           - ".:/my_log/:rw"
+      networks:
+           - my_network_from_compose
+   api:
+      image: datascientest/projet3:1.0.0 
+      container_name: my_api_from_compose
+      depends_on: 
+           - elasticsearch
+      ports: 
+           - "0.0.0.0:8000:8000"
+      networks:
+           - my_network_from_compose     
+
+networks:
+        my_network_from_compose:
+

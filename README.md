@@ -1,11 +1,11 @@
 ## projet_3
-PROJET N°3 / AMAZON + ELASTICSEARCH + DOCKER+API
+PROJET N°3 / AMAZON + ELASTICSEARCH + DOCKERi + API
 
-# Etape 1 : Lancement du script setup.sh
-Telechargement du fichier en local 
-Nettoyage du fichier 
-Génération .JSON
-Chargement des données dans ELASTICSEARCH
 
-#Etape 2 : Lancement de queries.sh ---> A remplacer par l'API
-Exemple de lancement de quelques requêtes interrogeant la base  
+# Comment faire 
+lancer la commande go.sh qui effecue les actions suivantes :
+* suppression de fichiers temporaires
+* génération de l'image docker de l'API
+* génération de l'image docker pour charger les données dans ELASTICSEARCH
+* Lancement de la commande docker-compose up 
+ 
