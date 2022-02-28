@@ -6,7 +6,7 @@ import os
 from collections import namedtuple
 
 
-from api_elasticsearch import api
+from API.api_elasticsearch import api, ELASTIC_URL
 
 client = TestClient(api)
 
@@ -16,7 +16,7 @@ TEST_INDEX = "test_index"
 url_no_index = "/search?query={query}&field={field}"
 url = url_no_index + "&index={index}"
 
-es = Elasticsearch("http://localhost:9200")
+es = Elasticsearch(ELASTIC_URL)
 
 
 def get_test_data():
@@ -43,7 +43,7 @@ test_data = get_test_data()
 def setup_module(module):
     """Create an index for test purposing"""
 
-    with open(f"{os.getcwd()}/mapping.json") as mapping:
+    with open(f"{os.getcwd()}/DATA/mapping.json") as mapping:
         dict_mapping = json.load(mapping)
 
     es.indices.create(index=TEST_INDEX, body=dict_mapping)

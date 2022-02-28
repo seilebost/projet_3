@@ -5,9 +5,7 @@ echo "====> DEBUT $0"
 # Suppression des fichiers temporaires 
 echo ""
 echo " === Nettoyage des fichiers temporaires"
-rm amazon.json
-rm amazon_co-ecommerce_sample.csv
-rm output.html 
+rm -f amazon.json amazon_co-ecommerce_sample.csv output.html 
 
 echo " === Construction de l'image docker pour l'API"
 cd API

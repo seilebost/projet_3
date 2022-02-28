@@ -3,6 +3,7 @@ import uvicorn
 from elasticsearch import Elasticsearch
 from typing import Optional, List
 from pydantic import BaseModel, Field
+import os
 
 api = FastAPI(
     title="API Elasticsearch",
@@ -11,8 +12,12 @@ api = FastAPI(
     version="1.0.0",
 )
 
+
+# Get elastic instance from environment
+ELASTIC_URL = os.getenv("ELASTIC_URL", "localhost:9200")
+
 # Connect to Elasticsearch
-client = Elasticsearch("http://localhost:9200")
+client = Elasticsearch(ELASTIC_URL)
 
 
 class Document(BaseModel):
@@ -106,7 +111,10 @@ def count(
 
 
 @api.post("/create/{index}")
-def create_document(index, document: Document):
+def create_document(index, document: Document) -> dict:
+    """
+    Add a new document to the given index with data from body request
+    """
 
     # With the refresh parameter the server's response will be delayed until
     # Elasticsearch has update the index
@@ -120,4 +128,3 @@ if __name__ == "__main__":
         port=8000,
         reload=True,
     )
-
