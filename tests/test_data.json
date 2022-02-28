@@ -1,0 +1,40 @@
+{
+    "GoodProduct": {
+        "amazon_category_and_sub_category": "string",
+        "average_review_rating": 4,
+        "customer_questions_and_answers": "string",
+        "customer_reviews": "a very good product",
+        "customers_who_bought_this_item_also_bought": "string",
+        "description": "a great product",
+        "items_customers_buy_after_viewing_this_item": "string",
+        "manufacturer": "test manufacturer",
+        "number_available_in_stock": "string",
+        "number_of_answered_questions": 2,
+        "number_of_reviews": 50,
+        "price": 100,
+        "product_description": "string",
+        "product_information": "string",
+        "product_name": "good product",
+        "sellers": "string"},
+
+    "BadProduct": {
+        "amazon_category_and_sub_category": "string",
+        "average_review_rating": 1,
+        "customer_questions_and_answers": "string",
+        "customer_reviews": "string",
+        "customers_who_bought_this_item_also_bought": "string",
+        "description": "a bad product",
+        "items_customers_buy_after_viewing_this_item": "string",
+        "manufacturer": "test manufacturer 2",
+        "number_available_in_stock": "string",
+        "number_of_answered_questions": 1,
+        "number_of_reviews": 20,
+        "price": 50,
+        "product_description": "string",
+        "product_information": "string",
+        "product_name": "bad product",
+        "sellers": "string"
+            }
+
+
+}
