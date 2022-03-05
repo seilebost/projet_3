@@ -5,7 +5,7 @@ echo "====> DEBUT $0"
 # Définition de l'url (adresse+port) d'ELS
 url="my_es_from_compose:9200"
 
-# Téléchargement du fichier si absenta
+# Téléchargement du fichier si absente
 echo ""
 echo " === Téléchargement du fichier de données si nécessaire"
 cd /my_log/
@@ -15,7 +15,7 @@ fi
 
 cd -
 
-# Nettoyage du fichier et sa generation en format json
+# Nettoyage du fichier et sa génération au format json
 echo ""
 echo " === Nettoyage du fichier de données dans ELS"
 python3 csv2json.py
@@ -34,7 +34,7 @@ curl  -X DELETE "my_es_from_compose:9200/amazon"
 
 # Création de l'index avec le mapping
 echo ""
-echo " === Creation de l'index amazon dans ELS"
+echo " === Création de l'index amazon dans ELS"
 curl  -X PUT "my_es_from_compose:9200/amazon" -H "Content-Type: application/json" -d @mapping.json
 
 # Insertion des données
