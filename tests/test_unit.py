@@ -172,7 +172,7 @@ class TestWithDocuments:
         assert resp.status_code == 200
         assert len(resp.json()) > 0
 
-    def test_create(self):
+    def test_create_document(self):
         initial_count = self.es.count(index=TEST_INDEX)["count"]
         resp = client.post(
             f"/create/{TEST_INDEX}", json=test_data.GoodProduct._asdict()
@@ -188,3 +188,7 @@ class TestWithDocuments:
 
         # Delete the document to avoid conflict with other tests
         self.es.delete(index=TEST_INDEX, id=resp.json()["_id"])
+
+
+    def test_update_document(self):
+        

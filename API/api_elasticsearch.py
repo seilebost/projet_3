@@ -110,7 +110,7 @@ def count(
     return {"count": client.count(index=index, q=q)["count"]}
 
 
-@api.post("/create/{index}")
+@api.post("/create_document/{index}", name="Create a new Document in index")
 def create_document(index, document: Document) -> dict:
     """
     Add a new document to the given index with data from body request
